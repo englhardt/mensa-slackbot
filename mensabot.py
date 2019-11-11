@@ -2,19 +2,7 @@ import os
 import re
 import slack
 from datetime import datetime
-from parsers import parse_mri_food, parse_kit_food
-
-MRI_URL = "https://www.casinocatering.de/speiseplan/max-rubner-institut"
-KIT_URL = "https://www.sw-ka.de/en/essen/"
-
-def build_answer():
-    food_mri = '\n'.join(parse_mri_food(MRI_URL))
-    food_kit = '\n'.join(parse_kit_food())
-
-    food = f"\nFood for <!date^{int(datetime.now().timestamp())}" + "^{date_long}|today>\n"
-    food += f"*MRI* <{MRI_URL}|(Link)>\n{food_mri if len(food_mri) > 0 else '_closed today_'}\n"
-    food += f"*KIT* <{KIT_URL}|(Link)>\n{food_kit if len(food_kit) > 0 else '_closed today_'}\n"
-    return food
+from parsers import build_food_message
 
 @slack.RTMClient.run_on(event='message')
 def get_food(**payload):
@@ -28,7 +16,7 @@ def get_food(**payload):
 
         web_client.chat_postMessage(
             channel=channel_id,
-            text=build_answer()
+            text=build_food_message()
         )
 
 slack_token = os.environ["SLACK_API_TOKEN"]
