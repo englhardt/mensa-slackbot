@@ -18,7 +18,7 @@ def parse_mri_food(url=MRI_URL, prune_side_dishes=True):
     return food if not prune_side_dishes else food[:2]
 
 def parse_kit_food(id=31, threshold=1.5,
-                   minify_categories=['Cafeteria', '[pizza]werkPizza', '[pizza]werkPasta', '[kœri]werk', 'Schnitzelbar']):
+                   minify_categories=['Cafeteria', '[pizza]werkPizza', '[pizza]werkPasta', '[pizza]werkSalate', '[kœri]werk', 'Schnitzelbar']):
     food = []
     raw_food = OpenMensa.get_meals_by_day(id, datetime.today().strftime('%Y-%m-%d'))
     for f in raw_food:
